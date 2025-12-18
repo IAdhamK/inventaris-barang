@@ -95,7 +95,120 @@ export const useInventoryStore = defineStore('inventory', {
                         this.items = []
                     }
                 }
+                // Load dummy data if no items exist
+                if (this.items.length === 0) {
+                    this.seedDummyData()
+                }
             }
+        },
+
+        seedDummyData() {
+            const dummyItems: Omit<InventoryItem, 'id' | 'createdAt' | 'updatedAt'>[] = [
+                {
+                    namaBarang: 'Laptop HP ProBook 450 G8',
+                    kategori: 'Elektronik',
+                    jumlah: 5,
+                    kondisi: 'Baik',
+                    lokasi: 'Ruang IT Lantai 3',
+                    tanggalInventaris: '2024-12-15',
+                    keterangan: 'Unit laptop untuk staf administrasi'
+                },
+                {
+                    namaBarang: 'Meja Kerja Kayu Jati',
+                    kategori: 'Furniture',
+                    jumlah: 12,
+                    kondisi: 'Baik',
+                    lokasi: 'Ruang Kerja Utama',
+                    tanggalInventaris: '2024-12-10',
+                    keterangan: 'Meja kerja standar ukuran 120x60cm'
+                },
+                {
+                    namaBarang: 'Kursi Kantor Ergonomis',
+                    kategori: 'Furniture',
+                    jumlah: 8,
+                    kondisi: 'Rusak Ringan',
+                    lokasi: 'Ruang Rapat Lt. 2',
+                    tanggalInventaris: '2024-12-08',
+                    keterangan: 'Beberapa sandaran perlu perbaikan'
+                },
+                {
+                    namaBarang: 'AC Split Daikin 2 PK',
+                    kategori: 'Elektronik',
+                    jumlah: 4,
+                    kondisi: 'Baik',
+                    lokasi: 'Ruang Direktur',
+                    tanggalInventaris: '2024-12-01',
+                    keterangan: 'AC inverter hemat energi'
+                },
+                {
+                    namaBarang: 'Printer Epson L3210',
+                    kategori: 'Elektronik',
+                    jumlah: 3,
+                    kondisi: 'Rusak Berat',
+                    lokasi: 'Gudang Perlengkapan',
+                    tanggalInventaris: '2024-11-25',
+                    keterangan: 'Head printer rusak, perlu diganti'
+                },
+                {
+                    namaBarang: 'Kertas HVS A4 80gsm',
+                    kategori: 'ATK',
+                    jumlah: 50,
+                    kondisi: 'Baik',
+                    lokasi: 'Gudang ATK',
+                    tanggalInventaris: '2024-12-17',
+                    keterangan: 'Stok kertas untuk 3 bulan'
+                },
+                {
+                    namaBarang: 'Lemari Arsip Besi 4 Laci',
+                    kategori: 'Perlengkapan Kantor',
+                    jumlah: 6,
+                    kondisi: 'Baik',
+                    lokasi: 'Ruang Arsip',
+                    tanggalInventaris: '2024-12-05',
+                    keterangan: 'Lemari arsip dengan kunci pengaman'
+                },
+                {
+                    namaBarang: 'Dispenser Hot & Cold',
+                    kategori: 'Perlengkapan Kantor',
+                    jumlah: 2,
+                    kondisi: 'Rusak Ringan',
+                    lokasi: 'Pantry Kantor',
+                    tanggalInventaris: '2024-11-20',
+                    keterangan: 'Fungsi pendingin tidak optimal'
+                },
+                {
+                    namaBarang: 'Whiteboard Magnetic 120x240',
+                    kategori: 'Perlengkapan Kantor',
+                    jumlah: 3,
+                    kondisi: 'Baik',
+                    lokasi: 'Ruang Rapat',
+                    tanggalInventaris: '2024-12-12',
+                    keterangan: 'Whiteboard dengan frame aluminium'
+                },
+                {
+                    namaBarang: 'UPS APC 1200VA',
+                    kategori: 'Elektronik',
+                    jumlah: 7,
+                    kondisi: 'Baik',
+                    lokasi: 'Server Room',
+                    tanggalInventaris: '2024-12-03',
+                    keterangan: 'Backup power untuk komputer server'
+                }
+            ]
+
+            const now = new Date().toISOString()
+            dummyItems.forEach((item, index) => {
+                const createdDate = new Date()
+                createdDate.setDate(createdDate.getDate() - index)
+
+                this.items.push({
+                    ...item,
+                    id: uuidv4(),
+                    createdAt: createdDate.toISOString(),
+                    updatedAt: createdDate.toISOString()
+                })
+            })
+            this.saveToStorage()
         },
 
         saveToStorage() {
